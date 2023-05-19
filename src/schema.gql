@@ -2,18 +2,37 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Todo {
   id: ID!
-  email: String!
+  priority_id: Int!
   name: String!
+  deadline: DateTime!
+  detail: String!
+  done: Boolean!
+  priority: Priority!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Priority {
+  id: ID!
+  name: String!
+  todos: [Todo!]!
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
+  todos: [Todo!]!
+  todo(id: Int!): Todo
+  priorities: [Priority!]!
+  priority(id: Int!): Priority
 }
 
 type Mutation {
-  createUser(email: String!, name: String!): User!
-  updateUser(id: Int!, email: String!, name: String!): User!
+  createTodo(name: String!, deadline: DateTime!, detail: String!, priority_id: Int!, done: Boolean!): Todo!
+  updateTodo(id: Int!, name: String!, deadline: DateTime!, detail: String!, priority_id: Int!, done: Boolean!): Todo!
+  createPriority(name: String!): Priority!
+  updatePriority(id: Int!, name: String!): Priority!
 }

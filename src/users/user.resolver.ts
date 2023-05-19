@@ -14,11 +14,12 @@ export class UsersResolver {
     return this.prisma.user.findMany();
   }
 
-  @Query(() => User)
+  // nullable: true をつけることでキーに一致するユーザー情報がない場合はnullを返すようにすることができる
+  @Query(() => User, { nullable: true })
   // idの引数定義をこのようにすることでschema.gplの型がfloatでなくなる
   async user(@Args('id', { type: () => Int }) id: number) {
     // id（主キー）を指定しただ一つのユーザー情報を返す
-    // 主キーが一致したデータがないとエラーになる
+    // nullable: trueがない場合、主キーが一致したデータがないとエラーになる
     return this.prisma.user.findUnique({
       where: {
         id: id,

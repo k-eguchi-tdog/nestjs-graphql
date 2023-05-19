@@ -6,12 +6,33 @@ generator client {
 }
 
 datasource db {
+  // DBMS
   provider = "sqlite"
+  // データソースURL 環境変数から得る
   url      = env("DATABASE_URL")
 }
 
+// ユーザーテーブル
 model User {
-  id        Int     @default(autoincrement()) @id
-  email     String  @unique
-  name      String?
+  id    Int     @default(autoincrement()) @id // ID 1から自動付番
+  email String  @unique                       // Eメールアドレス
+  name  String?                               // 名前
+}
+
+// TODOテーブル
+model Todo {
+  id          Int      @default(autoincrement()) @id                      // ID 1から自動付番
+  name        String                                                      // 名前
+  deadline    DateTime                                                    // 期日
+  detail      String                                                      // 詳細
+  priority_id Int                                                         // 優先度
+  priority    Priority @relation(fields: [priority_id], references: [id]) // 優先度（モデル）
+  done        Boolean                                                     // 完了フラグ
+}
+
+// 優先度テーブル
+model Priority {
+  id    Int    @default(autoincrement()) @id // ID 1から自動付番
+  name  String                               // 名前
+  todos Todo[]   
 }
