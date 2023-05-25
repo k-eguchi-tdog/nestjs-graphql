@@ -80,6 +80,20 @@ export class TodosResolver {
     });
   }
 
+  @Mutation(() => Todo)
+  async updateTodoDone(
+    @Args('id', { type: () => Int }) id: number, // このようにすることでschema.gplの型がfloatでなくなる
+    @Args('done') done: boolean,
+  ) {
+    // id（主キー）を指定しただ一つのTODO完了ステータスを引数のステータスに更新する
+    return this.prisma.todo.update({
+      data: {
+        done,
+      },
+      where: { id },
+    });
+  }
+
   @ResolveField(() => Priority)
   async priority(@Root() todo: Todo) {
     return this.prisma.priority.findUnique({

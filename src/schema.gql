@@ -33,6 +33,7 @@ type Query {
 type Mutation {
   createTodo(name: String!, deadline: DateTime!, detail: String!, priority_id: Int!, done: Boolean!): Todo!
   updateTodo(id: Int!, name: String!, deadline: DateTime!, detail: String!, priority_id: Int!, done: Boolean!): Todo!
+  updateTodoDone(id: Int!, done: Boolean!): Todo!
   createPriority(name: String!): Priority!
   updatePriority(id: Int!, name: String!): Priority!
 }
